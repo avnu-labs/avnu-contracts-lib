@@ -1,0 +1,21 @@
+[package]
+name = "avnu_lib"
+version = "0.1.0"
+edition = "2023_10"
+cairo-version = "2.6.3"
+
+[dependencies]
+starknet = "2.6.3"
+
+[lib]
+
+[dev-dependencies]
+snforge_std = { git = "https://github.com/foundry-rs/starknet-foundry.git", tag = "v0.20.1" }
+
+[[target.starknet-contract]]
+sierra = true
+casm = false
+
+[tool.fmt]
+sort-module-level-items = true
+max-line-length = 140
