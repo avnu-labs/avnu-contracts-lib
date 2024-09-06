@@ -1,9 +1,11 @@
 use avnu_lib::components::ownable::IOwnableDispatcher;
+use avnu_lib::components::pausable::IPausableDispatcher;
 use avnu_lib::components::upgradable::IUpgradableDispatcher;
 use avnu_lib::components::whitelist::IWhitelistDispatcher;
 use starknet::syscalls::deploy_syscall;
 use starknet::testing::pop_log_raw;
 use super::mocks::ownable_mock::OwnableMock;
+use super::mocks::pausable_mock::PausableMock;
 use super::mocks::upgradable_mock::UpgradableMock;
 use super::mocks::whitelist_mock::WhitelistMock;
 
@@ -22,6 +24,14 @@ pub fn deploy_upgradable() -> IUpgradableDispatcher {
         .expect('Failed to deploy UpgradableMock');
     pop_log_raw(address).unwrap();
     IUpgradableDispatcher { contract_address: address }
+}
+
+pub fn deploy_pausable() -> IPausableDispatcher {
+    let mut calldata = array!['OWNER'];
+    let (address, _) = deploy_syscall(PausableMock::TEST_CLASS_HASH.try_into().unwrap(), 0, calldata.span(), false)
+        .expect('Failed to deploy PausableMock');
+    pop_log_raw(address).unwrap();
+    IPausableDispatcher { contract_address: address }
 }
 
 pub fn deploy_whitelist() -> IWhitelistDispatcher {
